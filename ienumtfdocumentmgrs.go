@@ -1,5 +1,7 @@
 package tsf
 
+import "unsafe"
+
 // IEnumTfDocumentMgrs represents the IEnumTfDocumentMgrs COM interface.
 type IEnumTfDocumentMgrs struct {
 	IUnknown
@@ -12,4 +14,9 @@ type IEnumTfDocumentMgrsVtbl struct {
 	Next  uintptr
 	Reset uintptr
 	Skip  uintptr
+}
+
+// IEnumTfDocumentMgrs returns the IEnumTfDocumentMgrs vtable.
+func (obj *IEnumTfDocumentMgrs) IEnumTfDocumentMgrs() *IEnumTfDocumentMgrsVtbl {
+	return (*IEnumTfDocumentMgrsVtbl)(unsafe.Pointer(obj.Vtbl))
 }

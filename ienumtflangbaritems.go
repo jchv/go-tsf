@@ -1,5 +1,7 @@
 package tsf
 
+import "unsafe"
+
 // IEnumTfLangBarItems represents the IEnumTfLangBarItems COM interface.
 type IEnumTfLangBarItems struct {
 	IUnknown
@@ -12,4 +14,9 @@ type IEnumTfLangBarItemsVtbl struct {
 	Next  uintptr
 	Reset uintptr
 	Skip  uintptr
+}
+
+// IEnumTfLangBarItems returns the IEnumTfLangBarItems vtable.
+func (obj *IEnumTfLangBarItems) IEnumTfLangBarItems() *IEnumTfLangBarItemsVtbl {
+	return (*IEnumTfLangBarItemsVtbl)(unsafe.Pointer(obj.Vtbl))
 }

@@ -1,15 +1,22 @@
 package tsf
 
-// EnumTFUIElements represents the EnumTFUIElements COM interface.
-type EnumTFUIElements struct {
+import "unsafe"
+
+// IEnumTfUIElements represents the IEnumTfUIElements COM interface.
+type IEnumTfUIElements struct {
 	IUnknown
 }
 
-// EnumTFUIElementsVtbl COM interface vtable.
-type EnumTFUIElementsVtbl struct {
+// IEnumTfUIElementsVtbl COM interface vtable.
+type IEnumTfUIElementsVtbl struct {
 	IUnknownVtbl
 	Clone uintptr
 	Next  uintptr
 	Reset uintptr
 	Skip  uintptr
+}
+
+// IEnumTfUIElements returns the IEnumTfUIElements vtable.
+func (obj *IEnumTfUIElements) IEnumTfUIElements() *IEnumTfUIElementsVtbl {
+	return (*IEnumTfUIElementsVtbl)(unsafe.Pointer(obj.Vtbl))
 }

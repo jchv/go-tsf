@@ -1,5 +1,7 @@
 package tsf
 
+import "unsafe"
+
 // IEnumTfFunctionProviders represents the IEnumTfFunctionProviders COM interface.
 type IEnumTfFunctionProviders struct {
 	IUnknown
@@ -12,4 +14,9 @@ type IEnumTfFunctionProvidersVtbl struct {
 	Next  uintptr
 	Reset uintptr
 	Skip  uintptr
+}
+
+// IEnumTfFunctionProviders returns the IEnumTfFunctionProviders vtable.
+func (obj *IEnumTfFunctionProviders) IEnumTfFunctionProviders() *IEnumTfFunctionProvidersVtbl {
+	return (*IEnumTfFunctionProvidersVtbl)(unsafe.Pointer(obj.Vtbl))
 }

@@ -1,5 +1,7 @@
 package tsf
 
+import "unsafe"
+
 // IEnumTfPropertyValue represents the IEnumTfPropertyValue COM interface.
 type IEnumTfPropertyValue struct {
 	IUnknown
@@ -12,4 +14,9 @@ type IEnumTfPropertyValueVtbl struct {
 	Next  uintptr
 	Reset uintptr
 	Skip  uintptr
+}
+
+// IEnumTfPropertyValue returns the IEnumTfPropertyValue vtable.
+func (obj *IEnumTfPropertyValue) IEnumTfPropertyValue() *IEnumTfPropertyValueVtbl {
+	return (*IEnumTfPropertyValueVtbl)(unsafe.Pointer(obj.Vtbl))
 }
