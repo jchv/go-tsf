@@ -807,7 +807,7 @@ type (
 	//
 	// https://msdn.microsoft.com/en-us/library/windows/desktop/ms629071(v=vs.85).aspx
 	TFHaltCond struct {
-		HaltRange *TFRange
+		HaltRange *ITfRange
 		HaltPos   *TFAnchor
 		Flags     uint32
 	}

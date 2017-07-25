@@ -1,46 +1,18 @@
 package tsf
 
-import (
-	"syscall"
-	"unsafe"
-)
+import "unsafe"
 
-// TFDocumentMgr represents the ITfDocumentMgr COM interface.
-type TFDocumentMgr struct {
-	Vtbl *itfDocumentMgrVtbl
+// ITfDocumentMgr COM interface.
+type ITfDocumentMgr struct {
+	IUnknown
 }
 
-type itfDocumentMgrVtbl struct {
-	QueryInterface uintptr
-	AddRef         uintptr
-	Release        uintptr
-
-	CreateContext uintptr
-	EnumContexts  uintptr
-	GetBase       uintptr
-	GetTop        uintptr
-	Pop           uintptr
-	Push          uintptr
+// ITfDocumentMgrVtbl COM interface vtable.
+type ITfDocumentMgrVtbl struct {
+	IUnknownVtbl
 }
 
-func (obj *TFDocumentMgr) AddRef() uint32 {
-	ret, _, _ := syscall.Syscall(
-		obj.Vtbl.AddRef,
-		1,
-		uintptr(unsafe.Pointer(obj)),
-		0,
-		0,
-	)
-	return uint32(ret)
-}
-
-func (obj *TFDocumentMgr) Release() uint32 {
-	ret, _, _ := syscall.Syscall(
-		obj.Vtbl.Release,
-		1,
-		uintptr(unsafe.Pointer(obj)),
-		0,
-		0,
-	)
-	return uint32(ret)
+// ITfDocumentMgr returns the ITfDocumentMgr vtable.
+func (obj *ITfDocumentMgr) ITfDocumentMgr() *ITfDocumentMgrVtbl {
+	return (*ITfDocumentMgrVtbl)(unsafe.Pointer(obj.Vtbl))
 }
