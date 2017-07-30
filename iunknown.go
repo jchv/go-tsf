@@ -21,6 +21,16 @@ func (obj *IUnknown) IUnknown() *IUnknownVtbl {
 	return (*IUnknownVtbl)(unsafe.Pointer(obj.Vtbl))
 }
 
+// QueryInterface retrieves pointers to the supported interfaces on an object.
+func (obj *IUnknown) QueryInterface(riid *GUID, object uintptr) error {
+	return result(call2(
+		obj.Vtbl.QueryInterface,
+		uintptr(unsafe.Pointer(obj)),
+		uintptr(unsafe.Pointer(riid)),
+		uintptr(object),
+	))
+}
+
 // AddRef increments the reference count for an interface on an object. This
 // method should be called for every new copy of a pointer to an interface on
 // an object.

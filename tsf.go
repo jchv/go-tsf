@@ -2,11 +2,27 @@ package tsf
 
 // Constants from the Windows Text Services Framework
 const (
+	// ENoInterface is returned from QueryInterface when no interface impl is
+	// available for the requested IID.
+	ENoInterface = 0x80004002
+
+	// EPointer is returned from methods when an invalid or NULL pointer is
+	// passed into a required field.
+	EPointer = 0x80004003
+
 	// TFMenuReady is not currently used.
 	TFMenuReady = 0x00000001
 
 	// TFPropUIStatusSaveToFile specifies that a property is serializable.
 	TFPropUIStatusSaveToFile = 0x00000001
+
+	TFTMAENoActivateTIP            = 0x00000001
+	TFTMAESecureMode               = 0x00000002
+	TFTMAEUIElementEnabledOnly     = 0x00000004
+	TFTMAECOMLess                  = 0x00000008
+	TFTMAEWOW16                    = 0x00000010
+	TFTMAENoActivateKeyboardLayout = 0x00000020
+	TFTMAEConsole                  = 0x00000040
 )
 
 // GUIDs for interfaces
@@ -18,11 +34,39 @@ var (
 		Data4: [8]byte{0xAB, 0x9E, 0x9C, 0x7D, 0x68, 0x3E, 0x3C, 0x50},
 	}
 
+	IIDIUnknown = GUID{
+		Data1: 0x00000000,
+		Data2: 0x0000,
+		Data3: 0x0000,
+		Data4: [8]byte{0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46},
+	}
+
 	IIDTFThreadMgr = GUID{
 		Data1: 0xAA80E801,
 		Data2: 0x2021,
 		Data3: 0x11D2,
 		Data4: [8]byte{0x93, 0xE0, 0x00, 0x60, 0xB0, 0x67, 0xB8, 0x6E},
+	}
+
+	IIDTFThreadMgrEx = GUID{
+		Data1: 0x3e90ade3,
+		Data2: 0x7594,
+		Data3: 0x4cb0,
+		Data4: [8]byte{0xbb, 0x58, 0x69, 0x62, 0x8f, 0x5f, 0x45, 0x8c},
+	}
+
+	IIDTFUIElementSink = GUID{
+		Data1: 0xea1ea136,
+		Data2: 0x19df,
+		Data3: 0x11d7,
+		Data4: [8]byte{0xa6, 0xd2, 0x00, 0x06, 0x5b, 0x84, 0x43, 0x5c},
+	}
+
+	IIDTFSource = GUID{
+		Data1: 0x4EA48A35,
+		Data2: 0x60AE,
+		Data3: 0x446F,
+		Data4: [8]byte{0x8F, 0xD6, 0xE6, 0xA8, 0xD8, 0x24, 0x59, 0xF7},
 	}
 )
 
@@ -834,6 +878,37 @@ type (
 		Style        uint32
 		Sort         uint32
 		Description  [TFLBIDescMaxLen]uint16
+	}
+
+	// TFLanguageProfile contains information about a language profile.
+	TFLanguageProfile struct {
+		ClsID       GUID
+		LangID      uint16
+		CatID       GUID
+		Active      uint32
+		ProfileGUID GUID
+	}
+
+	// TFLattElement contains information about a lattice element.
+	TFLattElement struct {
+		FrameStart uint32
+		FrameLen   uint32
+		Flags      uint32
+		Cost       int32
+		Text       BStr
+	}
+
+	// TFPropertyVal contains property value data.
+	TFPropertyVal struct {
+		ID    GUID
+		Value GUID
+	}
+
+	// TFRenderingMarkup contains a range and the display attribute
+	// information.
+	TFRenderingMarkup struct {
+		Range       *ITfRange
+		DisplayAttr TFDisplayAttribute
 	}
 )
 
